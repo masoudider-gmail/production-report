@@ -1,0 +1,47 @@
+package ir.novinp.productionreport.model;
+
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "ORDERS")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long orderId;
+
+    private String name;
+    private String picture;
+    private int windowCount;
+    private double windowMeter;
+    private int glassCount;
+    private double glassMeter;
+
+    private int windowProductionStatus;
+
+    private int glassProductionStatus;
+
+    @CreationTimestamp
+    private LocalDateTime creationDate;
+
+    @UpdateTimestamp
+    private LocalDateTime lastModificationDate;
+
+    private LocalDateTime completeDate;
+
+    private LocalDateTime outDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_app_id")
+    private AppUser appUser;
+}
