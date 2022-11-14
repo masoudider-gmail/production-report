@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class WindowOrderLogServiceImp implements WindowOrderLogService {
@@ -20,4 +21,8 @@ public class WindowOrderLogServiceImp implements WindowOrderLogService {
         return repository.save(orderLog);
     }
 
+    @Override
+    public Optional<WindowOrderLog> findByOrderIdAndStatus(Long orderId, Integer status) {
+        return repository.findByOrderOrderIdAndStatus(orderId,status);
+    }
 }
