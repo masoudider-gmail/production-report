@@ -5,8 +5,8 @@ import ir.novinp.productionreport.api.responseModel.WindowLogResponse;
 
 public interface WindowLogMapService {
 
-    WindowLogResponse startNextStep(WindowLogRequest request);
+    WindowLogResponse startNextStep(WindowLogRequest request) throws Exception;
 
-    WindowLogResponse endLastStep(Long id, WindowLogRequest request);
+    WindowLogResponse endLastStep( WindowLogRequest request) throws Exception;
 
 }

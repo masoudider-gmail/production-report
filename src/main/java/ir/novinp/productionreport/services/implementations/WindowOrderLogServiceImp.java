@@ -22,7 +22,7 @@ public class WindowOrderLogServiceImp implements WindowOrderLogService {
     }
 
     @Override
-    public Optional<WindowOrderLog> findByOrderIdAndStatus(Long orderId, Integer status) {
-        return repository.findByOrderOrderIdAndStatus(orderId,status);
+    public Optional<WindowOrderLog> findById(Long id) {
+        return repository.findById(id);
     }
 }

@@ -11,7 +11,7 @@ public interface OrderMapService {
 
     OrderResponse save(OrderRequest order);
 
-    OrderResponse updateById(Long orderId, OrderRequest order);
+    OrderResponse updateById(Long orderId, OrderRequest order) throws Exception;
 
     void deleteById(Long orderId);
 

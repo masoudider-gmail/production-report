@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "ORDERS")
@@ -44,4 +45,14 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_app_id")
     private AppUser appUser;
+
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "order",
+            fetch = FetchType.LAZY)
+    private List<WindowOrderLog> winLogList;
+
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "order",
+            fetch = FetchType.LAZY)
+    private List<GlassOrderLog> glassLogList;
 }

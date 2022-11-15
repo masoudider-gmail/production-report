@@ -43,8 +43,8 @@ public class OrderLogMapServiceImp implements OrderMapService {
 
     @Override
     @Transactional(rollbackOn = Throwable.class)
-    public OrderResponse updateById(Long orderId, OrderRequest request) {
-        Order order = service.findById(orderId).orElseThrow(RuntimeException::new);
+    public OrderResponse updateById(Long orderId, OrderRequest request) throws Exception {
+        Order order = service.findById(orderId).orElseThrow(()->new Exception("Order Id Is Not Valid!"));
         order.setName(request.getName());
         order.setWindowCount(request.getWindowCount());
         order.setWindowMeter(request.getWindowMeter());

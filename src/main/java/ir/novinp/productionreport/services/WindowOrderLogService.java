@@ -8,6 +8,5 @@ public interface WindowOrderLogService {
 
     WindowOrderLog save(WindowOrderLog orderLog);
 
-    Optional<WindowOrderLog> findByOrderIdAndStatus(Long orderId, Integer status);
-
+    Optional<WindowOrderLog> findById(Long id);
 }

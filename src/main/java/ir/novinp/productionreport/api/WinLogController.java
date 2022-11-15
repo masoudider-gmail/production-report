@@ -21,9 +21,9 @@ public class WinLogController {
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity endLastStep(@PathVariable Long id, @RequestBody WindowLogRequest request) {
-        WindowLogResponse response = mapService.endLastStep(id, request);
+    @PostMapping("/done")
+    public ResponseEntity endLastStep( @RequestBody WindowLogRequest request) {
+        WindowLogResponse response = mapService.endLastStep( request);
         return new ResponseEntity(response, HttpStatus.ACCEPTED);
     }
 }
