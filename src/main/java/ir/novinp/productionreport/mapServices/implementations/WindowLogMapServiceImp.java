@@ -1,7 +1,7 @@
 package ir.novinp.productionreport.mapServices.implementations;
 
-import ir.novinp.productionreport.api.requestModel.WindowLogRequest;
-import ir.novinp.productionreport.api.responseModel.WindowLogResponse;
+import ir.novinp.productionreport.api.requestModel.LogRequest;
+import ir.novinp.productionreport.api.responseModel.LogResponse;
 import ir.novinp.productionreport.mapServices.WindowLogMapService;
 import ir.novinp.productionreport.model.AppUser;
 import ir.novinp.productionreport.model.Order;
@@ -32,7 +32,7 @@ public class WindowLogMapServiceImp implements WindowLogMapService {
     private AppUserService userService;
 
     @Override
-    public WindowLogResponse startNextStep(WindowLogRequest request) throws Exception {
+    public LogResponse startNextStep(LogRequest request) throws Exception {
 
         Order order = getOrderById(request.getOrderId());
 
@@ -62,7 +62,7 @@ public class WindowLogMapServiceImp implements WindowLogMapService {
     }
 
     @Override
-    public WindowLogResponse endLastStep(WindowLogRequest request) throws Exception {
+    public LogResponse endLastStep(LogRequest request) throws Exception {
         Order order = getOrderById(request.getOrderId());
 
         Optional<WindowOrderLog> optionalLog = getWindowOrderLogByOrder(order);
@@ -78,8 +78,8 @@ public class WindowLogMapServiceImp implements WindowLogMapService {
         }
     }
 
-    private WindowLogResponse mapToWindowLogResponse(WindowOrderLog log) {
-        return WindowLogResponse
+    private LogResponse mapToWindowLogResponse(WindowOrderLog log) {
+        return LogResponse
                 .builder()
                 .id(log.getId())
                 .creationDate(log.getCreationDate())

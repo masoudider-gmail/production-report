@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class WindowLogResponse {
+public class LogResponse {
     private Long id;
     private Long orderId;
     private LocalDateTime creationDate;

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class WindowLogRequest {
+public class LogRequest {
 
     private Long orderId;
     private String description;
