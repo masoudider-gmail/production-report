@@ -16,13 +16,13 @@ public class WinLogController {
     private WindowLogMapService mapService;
 
     @PostMapping
-    public ResponseEntity startNextStep(@RequestBody WindowLogRequest request) {
+    public ResponseEntity startNextStep(@RequestBody WindowLogRequest request) throws Exception {
         WindowLogResponse response = mapService.startNextStep(request);
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/done")
-    public ResponseEntity endLastStep( @RequestBody WindowLogRequest request) {
+    public ResponseEntity endLastStep( @RequestBody WindowLogRequest request) throws Exception {
         WindowLogResponse response = mapService.endLastStep( request);
         return new ResponseEntity(response, HttpStatus.ACCEPTED);
     }

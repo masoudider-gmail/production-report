@@ -34,7 +34,7 @@ public class OrderController {
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody @Valid OrderRequest request) {
+    public ResponseEntity update(@PathVariable Long id, @RequestBody @Valid OrderRequest request) throws Exception {
         OrderResponse orderResponse = mapService.updateById(id, request);
         return new ResponseEntity(orderResponse, HttpStatus.NO_CONTENT);
     }
