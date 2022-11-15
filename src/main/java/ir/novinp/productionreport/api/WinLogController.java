@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/winLog")
 public class WinLogController {
@@ -22,8 +24,14 @@ public class WinLogController {
     }
 
     @PostMapping("/done")
-    public ResponseEntity endLastStep( @RequestBody LogRequest request) throws Exception {
-        LogResponse response = mapService.endLastStep( request);
+    public ResponseEntity endLastStep(@RequestBody LogRequest request) throws Exception {
+        LogResponse response = mapService.endLastStep(request);
         return new ResponseEntity(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity loadAllByOrderId(@PathVariable Long id) throws Exception {
+        List<LogResponse> logResponses = mapService.loadAll(id);
+        return new ResponseEntity(logResponses, HttpStatus.OK);
     }
 }

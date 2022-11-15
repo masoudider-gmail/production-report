@@ -16,7 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -69,13 +71,22 @@ public class WindowLogMapServiceImp implements WindowLogMapService {
 
         if (!optionalLog.isPresent()) {
             throw new Exception("Last Step Is Done, You Must Start The Next Step");
-        }else {
+        } else {
 
-        WindowOrderLog windowOrderLog = logService.findById(optionalLog.get().getId()).orElseThrow(RuntimeException::new);
-        windowOrderLog.setCompleteDate(LocalDateTime.now());
+            WindowOrderLog windowOrderLog = logService.findById(optionalLog.get().getId()).orElseThrow(RuntimeException::new);
+            windowOrderLog.setCompleteDate(LocalDateTime.now());
 
-        return mapToWindowLogResponse(logService.save(windowOrderLog));
+            return mapToWindowLogResponse(logService.save(windowOrderLog));
         }
+    }
+
+    @Override
+    public List<LogResponse> loadAll(Long orderId) throws Exception {
+        return logService
+                .loadAllByOrderId(orderId)
+                .stream()
+                .map(this::mapToWindowLogResponse)
+                .collect(Collectors.toList());
     }
 
     private LogResponse mapToWindowLogResponse(WindowOrderLog log) {
