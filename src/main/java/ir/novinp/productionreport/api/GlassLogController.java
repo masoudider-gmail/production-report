@@ -6,13 +6,12 @@ import ir.novinp.productionreport.mapServices.GlassLogMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/winLog")
+@RequestMapping("/glassLog")
 public class GlassLogController {
 
 
@@ -29,5 +28,11 @@ public class GlassLogController {
     public ResponseEntity endLastStep( @RequestBody LogRequest request) throws Exception {
         LogResponse response = mapService.endLastStep( request);
         return new ResponseEntity(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity loadAllByOrderId(@PathVariable Long id) throws Exception {
+        List<LogResponse> logResponses = mapService.loadAll(id);
+        return new ResponseEntity(logResponses, HttpStatus.OK);
     }
 }
