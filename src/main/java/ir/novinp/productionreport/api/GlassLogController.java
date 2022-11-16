@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/glassLog")
 public class GlassLogController {
 
-
     @Autowired
     private GlassLogMapService mapService;
 

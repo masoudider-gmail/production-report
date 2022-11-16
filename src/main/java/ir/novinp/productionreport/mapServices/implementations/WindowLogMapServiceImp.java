@@ -116,5 +116,4 @@ public class WindowLogMapServiceImp implements WindowLogMapService {
                 .orElseThrow(RuntimeException::new);
     }
 
-
 }
