@@ -62,5 +62,6 @@ public class StartUp implements CommandLineRunner {
         userRoleService.save(userRole);
         appUserService.save(appUser);
         orderService.save(order);
+
     }
 }

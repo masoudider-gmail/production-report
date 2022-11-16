@@ -40,12 +40,15 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests(
                         auth -> auth
-                                .antMatchers("/")
+                                .antMatchers("/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
-                ).authenticationManager(authenticationManager)
-                .httpBasic();
+                ).authenticationManager(authenticationManager);
+
+        http
+                .addFilter(new JwtUserAndPassAuthFilter(authenticationManager))
+                .addFilterBefore(new CustomAuthorizationFilter(), JwtUserAndPassAuthFilter.class);
 
         return http.build();
     }
