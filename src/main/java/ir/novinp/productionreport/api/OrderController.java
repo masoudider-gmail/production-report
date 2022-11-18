@@ -14,32 +14,30 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/order")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
+@CrossOrigin(origins = "authorization")
 public class OrderController {
 
     @Autowired
     private OrderMapService mapService;
 
-    @CrossOrigin
     @GetMapping
     public ResponseEntity getAllOrders() {
+        System.out.println("requested");
         return new ResponseEntity(mapService.getAll(), HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PostMapping
     public ResponseEntity saveOrder(@RequestBody @Valid OrderRequest request) {
         OrderResponse savedOrder = mapService.save(request);
         return new ResponseEntity(savedOrder, HttpStatus.CREATED);
     }
 
-    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody @Valid OrderRequest request) throws Exception {
         OrderResponse orderResponse = mapService.updateById(id, request);
         return new ResponseEntity(orderResponse, HttpStatus.NO_CONTENT);
     }
 
-    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity deleteOrder(@PathVariable Long id) {
         mapService.deleteById(id);

@@ -1,5 +1,6 @@
 package ir.novinp.productionreport.api.requestModel;
 
+import ir.novinp.productionreport.validation.CheckStringLength;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 public class OrderRequest {
 
     @NotNull(message = "Name Can Not Be Null")
+    @CheckStringLength
     private String name;
 
     @NotNull(message = "WindowCount Can Not Be Null")
