@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/glassLog")
+@CrossOrigin(origins = "*")
 public class GlassLogController {
 
     @Autowired

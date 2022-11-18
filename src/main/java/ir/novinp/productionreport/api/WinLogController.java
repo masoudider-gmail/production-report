@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/winLog")
+@CrossOrigin(origins = "*")
 public class WinLogController {
 
     @Autowired

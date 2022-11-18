@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/order")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-@CrossOrigin(origins = "authorization")
+@CrossOrigin(origins = "*")
 public class OrderController {
 
     @Autowired

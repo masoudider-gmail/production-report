@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests(
                         auth -> auth
-                                .antMatchers("/login","/h2")
+                                .antMatchers("/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
