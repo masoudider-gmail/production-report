@@ -36,8 +36,8 @@ public class StartUp implements CommandLineRunner {
 
         AppUser appUser = AppUser
                 .builder()
-                .name("Masoud")
-                .lastName("Ider")
+                .name("مسعود")
+                .lastName("ایدر")
                 .nationalCode("4640096178")
                 .address("Brn")
                 .phoneNumber("09139887321")
@@ -56,12 +56,31 @@ public class StartUp implements CommandLineRunner {
                 .picture("sth")
                 .glassProductionStatus(1)
                 .windowProductionStatus(1)
+                .windowProductionStepDone(true)
+                .glassProductionStepDone(true)
+                .appUser(appUser)
+                .build();
+
+        Order order1 = Order
+                .builder()
+                .name("MR_Ahmadi")
+                .windowCount(40)
+                .windowMeter(190.5)
+                .glassCount(80)
+                .glassMeter(120.0)
+                .picture("sth")
+                .glassProductionStatus(1)
+                .windowProductionStatus(1)
+                .windowProductionStepDone(true)
+                .glassProductionStepDone(true)
                 .appUser(appUser)
                 .build();
 
         userRoleService.save(userRole);
         appUserService.save(appUser);
+
         orderService.save(order);
+        orderService.save(order1);
 
     }
 }

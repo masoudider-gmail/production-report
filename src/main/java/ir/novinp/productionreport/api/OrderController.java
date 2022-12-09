@@ -3,26 +3,33 @@ package ir.novinp.productionreport.api;
 import ir.novinp.productionreport.api.requestModel.OrderRequest;
 import ir.novinp.productionreport.api.responseModel.OrderResponse;
 import ir.novinp.productionreport.mapServices.OrderMapService;
+import ir.novinp.productionreport.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/order")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
-@CrossOrigin(origins = "*")
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
+
 public class OrderController {
 
     @Autowired
     private OrderMapService mapService;
 
+
     @GetMapping
     public ResponseEntity getAllOrders() {
         System.out.println("requested");
+
         return new ResponseEntity(mapService.getAll(), HttpStatus.OK);
     }
 

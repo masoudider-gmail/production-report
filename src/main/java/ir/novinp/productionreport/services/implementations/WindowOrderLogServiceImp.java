@@ -2,33 +2,17 @@ package ir.novinp.productionreport.services.implementations;
 
 import ir.novinp.productionreport.model.WindowOrderLog;
 import ir.novinp.productionreport.model.repositories.WindowOrderLogRepository;
-import ir.novinp.productionreport.services.WindowOrderLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-
-@Service
-public class WindowOrderLogServiceImp implements WindowOrderLogService {
+@Service("windowLogService")
+public class WindowOrderLogServiceImp extends OrderLogServiceImp<WindowOrderLog> {
 
     @Autowired
     private WindowOrderLogRepository repository;
 
     @Override
-    @Transactional(rollbackOn = Throwable.class)
-    public WindowOrderLog save(WindowOrderLog orderLog) {
-        return repository.save(orderLog);
-    }
-
-    @Override
-    public Optional<WindowOrderLog> findById(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public List<WindowOrderLog> loadAllByOrderId(Long orderId) {
-        return repository.findByOrder_OrderId(orderId);
+    public WindowOrderLogRepository repository() {
+        return repository;
     }
 }

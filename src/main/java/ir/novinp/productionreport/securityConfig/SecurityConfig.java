@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -36,8 +37,12 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
+
+
         http
-                .csrf().disable()
+                .csrf().disable();
+
+        http
                 .authorizeRequests(
                         auth -> auth
                                 .antMatchers("/login")
@@ -48,7 +53,7 @@ public class SecurityConfig {
 
         http
                 .addFilter(new JwtUserAndPassAuthFilter(authenticationManager))
-                .addFilterBefore(new CustomAuthorizationFilter(), JwtUserAndPassAuthFilter.class);
+                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -60,4 +65,6 @@ public class SecurityConfig {
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+
+
 }

@@ -2,14 +2,13 @@ package ir.novinp.productionreport.securityConfig;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,10 +22,12 @@ public class JwtUserAndPassAuthFilter extends UsernamePasswordAuthenticationFilt
 
     private AuthenticationManager authenticationManager;
 
+
     public JwtUserAndPassAuthFilter(AuthenticationManager authenticationManager) {
 
         this.authenticationManager = authenticationManager;
     }
+
 
     @Override
     public Authentication attemptAuthentication(
@@ -37,7 +38,7 @@ public class JwtUserAndPassAuthFilter extends UsernamePasswordAuthenticationFilt
         String password = request.getParameter("password");
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                userName,password
+                userName, password
         );
 
         return authenticationManager.authenticate(token);
@@ -56,7 +57,7 @@ public class JwtUserAndPassAuthFilter extends UsernamePasswordAuthenticationFilt
         String jwtToken = JWT
                 .create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 600000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 6000))
                 .withIssuer(request.getRequestURI())
                 .withClaim(
                         "roles",
@@ -65,6 +66,17 @@ public class JwtUserAndPassAuthFilter extends UsernamePasswordAuthenticationFilt
                                 .collect(Collectors.toList()))
                 .sign(algorithm);
 
-        response.setHeader("accessToken", jwtToken);
+        response.setHeader("Token", jwtToken);
+        response.getWriter().write(new Token(jwtToken).getToken());
     }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @ToString
+    public class Token {
+        private String Token;
+    }
+
 }

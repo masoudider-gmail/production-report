@@ -5,11 +5,9 @@ import ir.novinp.productionreport.api.responseModel.LogResponse;
 
 import java.util.List;
 
-public interface WindowLogMapService {
+public interface OrderLogMapService {
 
-    LogResponse startNextStep(LogRequest request) throws Exception;
-
-    LogResponse endLastStep(LogRequest request) throws Exception;
+    LogResponse continueTask(LogRequest request) throws Throwable;
 
     List<LogResponse> loadAll(Long orderId) throws Exception;
 

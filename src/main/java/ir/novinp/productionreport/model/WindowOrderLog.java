@@ -13,7 +13,5 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WindowOrderLog extends OrderLog {
-
     private int status;
-
 }

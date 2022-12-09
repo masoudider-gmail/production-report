@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderLogMapServiceImp implements OrderMapService {
+public class OrderMapServiceImp implements OrderMapService {
 
     @Autowired
     private OrderService service;
@@ -71,12 +71,14 @@ public class OrderLogMapServiceImp implements OrderMapService {
                 .glassCount(order.getGlassCount())
                 .glassMeter(order.getGlassMeter())
                 .windowProductionStatus(Status.windowProduction.get(order.getWindowProductionStatus()))
+                .windowProductionStepDone(order.isWindowProductionStepDone())
                 .glassProductionStatus(Status.glassProduction.get(order.getGlassProductionStatus()))
+                .glassProductionStepDone(order.isGlassProductionStepDone())
                 .creationDate(order.getCreationDate())
                 .lastModificationDate(order.getLastModificationDate())
                 .completeDate(order.getCompleteDate())
                 .outDate(order.getOutDate())
-                .appUser(order.getAppUser().getName())
+                .appUser(order.getAppUser().getName()+" "+order.getAppUser().getLastName())
                 .build();
     }
 

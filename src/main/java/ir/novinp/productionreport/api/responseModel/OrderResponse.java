@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Builder
 @Getter
@@ -21,10 +21,12 @@ public class OrderResponse {
     private int glassCount;
     private double glassMeter;
     private String windowProductionStatus;
+    private boolean windowProductionStepDone;
     private String glassProductionStatus;
-    private LocalDateTime creationDate;
-    private LocalDateTime lastModificationDate;
-    private LocalDateTime completeDate;
-    private LocalDateTime outDate;
+    private boolean glassProductionStepDone;
+    private LocalDate creationDate;
+    private LocalDate lastModificationDate;
+    private LocalDate completeDate;
+    private LocalDate outDate;
     private String appUser;
 }
