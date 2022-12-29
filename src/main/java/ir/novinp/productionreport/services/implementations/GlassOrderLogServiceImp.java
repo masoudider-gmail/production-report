@@ -5,7 +5,7 @@ import ir.novinp.productionreport.model.repositories.GlassOrderLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("glassOrderLog")
+@Service("glassLogService")
 public class GlassOrderLogServiceImp extends OrderLogServiceImp<GlassOrderLog> {
 
     @Autowired

@@ -5,9 +5,14 @@ import java.util.Map;
 
 public class Status {
 
-    public static Map<Integer, String> glassProduction = new HashMap<>();
+    public final static int winCompleteStatusId = 15;
+    public final static int winMovedOutStatusId = 16;
+    public final static int glassCompleteStatusId = 7;
+    public final static int glassMovedOutStatusId = 8;
 
-    public static Map<Integer, String> windowProduction = new HashMap<>();
+    public final static Map<Integer, String> glassProduction = new HashMap<>();
+
+    public final static Map<Integer, String> windowProduction = new HashMap<>();
 
     static {
         windowProduction.put(1, "IN_THE_COMPANY");
@@ -35,5 +40,6 @@ public class Status {
         glassProduction.put(6, "APPLY_GLUE");
         glassProduction.put(7, "COMPLETE");
         glassProduction.put(8, "MOVED_OUT");
+
     }
 }

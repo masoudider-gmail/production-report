@@ -21,7 +21,7 @@ public abstract class OrderLogServiceImp<LOG_TYPE extends OrderLog> implements O
 
     @Override
     public List<LOG_TYPE> loadAllByOrderId(Long orderId) {
-        return repository().findByOrder_OrderId(orderId);
+        return (List<LOG_TYPE>) repository().findByOrder_OrderId(orderId);
     }
 
     public abstract <LOG extends OrderLogRepository> LOG repository();

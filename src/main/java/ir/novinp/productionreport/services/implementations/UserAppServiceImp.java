@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author M.Ider
+ */
 @Service
 public class UserAppServiceImp implements AppUserService, UserDetailsService {
 

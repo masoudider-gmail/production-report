@@ -2,7 +2,8 @@ package ir.novinp.productionreport.api;
 
 import ir.novinp.productionreport.api.requestModel.LogRequest;
 import ir.novinp.productionreport.api.responseModel.LogResponse;
-import ir.novinp.productionreport.mapServices.WindowLogMapService;
+import ir.novinp.productionreport.api.responseModel.OrderResponse;
+import ir.novinp.productionreport.mapServices.OrderLogMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +17,17 @@ import java.util.List;
 public class WinLogController {
 
     @Autowired
-    private WindowLogMapService mapService;
+    private OrderLogMapService windowLogMapService;
 
     @PostMapping
-    public ResponseEntity startNextStep(@RequestBody LogRequest request) throws Exception {
-        LogResponse response = mapService.startNextStep(request);
+    public ResponseEntity continueTask(@RequestBody LogRequest request) throws Throwable {
+        OrderResponse response = windowLogMapService.continueTask(request);
         return new ResponseEntity(response, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/done")
-    public ResponseEntity endLastStep(@RequestBody LogRequest request) throws Exception {
-        LogResponse response = mapService.endLastStep(request);
-        return new ResponseEntity(response, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity loadAllByOrderId(@PathVariable Long id) throws Exception {
-        List<LogResponse> logResponses = mapService.loadAll(id);
+        List<LogResponse> logResponses = windowLogMapService.loadAll(id);
         return new ResponseEntity(logResponses, HttpStatus.OK);
     }
 }

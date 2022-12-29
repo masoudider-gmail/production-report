@@ -57,7 +57,7 @@ public class JwtUserAndPassAuthFilter extends UsernamePasswordAuthenticationFilt
         String jwtToken = JWT
                 .create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 6000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 60000000))
                 .withIssuer(request.getRequestURI())
                 .withClaim(
                         "roles",

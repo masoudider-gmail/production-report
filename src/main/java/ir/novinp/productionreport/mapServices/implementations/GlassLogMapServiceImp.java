@@ -2,13 +2,15 @@ package ir.novinp.productionreport.mapServices.implementations;
 
 import ir.novinp.productionreport.api.requestModel.LogRequest;
 import ir.novinp.productionreport.api.responseModel.LogResponse;
-import ir.novinp.productionreport.mapServices.GlassLogMapService;
+import ir.novinp.productionreport.api.responseModel.OrderResponse;
+import ir.novinp.productionreport.mapServices.OrderLogMapService;
+import ir.novinp.productionreport.mapServices.OrderMapService;
 import ir.novinp.productionreport.model.AppUser;
 import ir.novinp.productionreport.model.GlassOrderLog;
 import ir.novinp.productionreport.model.Order;
 import ir.novinp.productionreport.model.status.Status;
 import ir.novinp.productionreport.services.AppUserService;
-import ir.novinp.productionreport.services.GlassOrderLogService;
+import ir.novinp.productionreport.services.OrderLogService;
 import ir.novinp.productionreport.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,11 +22,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
-public class GlassLogMapServiceImp implements GlassLogMapService {
+@Service("glassLogMapService")
+public class GlassLogMapServiceImp implements OrderLogMapService {
 
     @Autowired
-    private GlassOrderLogService logService;
+    private OrderLogService glassLogService;
+
+    @Autowired
+    private OrderMapService orderMapService;
 
     @Autowired
     private OrderService orderService;
@@ -33,18 +38,37 @@ public class GlassLogMapServiceImp implements GlassLogMapService {
     private AppUserService userService;
 
     @Override
-    public LogResponse startNextStep(LogRequest request) throws Exception {
+    public OrderResponse continueTask(LogRequest request) throws Throwable {
 
         Order order = getOrderById(request.getOrderId());
 
         Optional<GlassOrderLog> optionalLog = getGlassOrderLogByOrder(order);
 
-        if (optionalLog.isPresent())
-            throw new Exception("Last Step Is Not Done Yet, You Can Not Start The Next Step!");
+        if (!optionalLog.isPresent()) {
+            //nextStep
+            return startNextStep(order);
+        } else {
+            //end last Step
+            return endLastStep(order, optionalLog.get().getId());
+        }
+    }
+
+    private OrderResponse startNextStep(Order order) {
 
         int glassProductStatus = order.getGlassProductionStatus() + 1;
 
         order.setGlassProductionStatus(glassProductStatus);
+        order.setGlassProductionStepDone(false);
+
+
+
+        if (glassProductStatus == Status.glassMovedOutStatusId &&
+                order.getWindowProductionStatus() == Status.winMovedOutStatusId) {
+
+            order.setOutDate(LocalDateTime.now());
+
+        }
+
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppUser appUser = userService.findByUserName(authentication.getName());
@@ -53,35 +77,41 @@ public class GlassLogMapServiceImp implements GlassLogMapService {
                 .builder()
                 .appUser(appUser)
                 .order(order)
-                .description(request.getDescription())
+                .description(null)
                 .status(glassProductStatus)
                 .build();
 
-        orderService.save(order);
-        return mapToLogResponse(logService.save(windowOrderLog));
+
+        Order savedOrder = orderService.save(order);
+        glassLogService.save(windowOrderLog);
+        return orderMapService.mapToResponse(savedOrder);
     }
 
-    @Override
-    public LogResponse endLastStep(LogRequest request) throws Exception {
-        Order order = getOrderById(request.getOrderId());
+    public OrderResponse endLastStep(Order order, Long logId) throws Throwable {
 
-        Optional<GlassOrderLog> optionalLog = getGlassOrderLogByOrder(order);
+        order.setGlassProductionStepDone(true);
 
-        if (!optionalLog.isPresent()) {
-            throw new Exception("Last Step Is Done, You Must Start The Next Step");
-        } else {
+        if (order.getGlassProductionStatus() == Status.glassCompleteStatusId &&
+                order.getWindowProductionStatus() == Status.winCompleteStatusId) {
 
-            GlassOrderLog glassOrderLog = logService.findById(optionalLog.get().getId()).orElseThrow(RuntimeException::new);
-            glassOrderLog.setCompleteDate(LocalDateTime.now());
+            order.setCompleteDate(LocalDateTime.now());
 
-            return mapToLogResponse(logService.save(glassOrderLog));
         }
+
+        GlassOrderLog glassOrderLog = (GlassOrderLog) glassLogService.findById(logId).orElseThrow(RuntimeException::new);
+        glassOrderLog.setCompleteDate(LocalDateTime.now());
+
+        Order savedOrder = orderService.save(order);
+        glassLogService.save(glassOrderLog);
+        return orderMapService.mapToResponse(savedOrder);
+
     }
 
     @Override
     public List<LogResponse> loadAll(Long orderId) throws Exception {
-        return logService
-                .loadAllByOrderId(orderId)
+        List<GlassOrderLog> list = glassLogService
+                .loadAllByOrderId(orderId);
+        return list
                 .stream()
                 .map(this::mapToLogResponse)
                 .collect(Collectors.toList());

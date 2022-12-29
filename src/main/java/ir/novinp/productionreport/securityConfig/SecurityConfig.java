@@ -37,15 +37,13 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-
-
-        http
-                .csrf().disable();
+        http.csrf()
+                .disable();
 
         http
                 .authorizeRequests(
                         auth -> auth
-                                .antMatchers("/login")
+                                .antMatchers("/login", "/download")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

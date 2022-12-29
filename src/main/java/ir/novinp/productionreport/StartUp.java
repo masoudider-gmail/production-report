@@ -46,6 +46,18 @@ public class StartUp implements CommandLineRunner {
                 .role(userRole)
                 .build();
 
+        AppUser salman = AppUser
+                .builder()
+                .name("سلمان")
+                .lastName("ایدر")
+                .nationalCode("4640096178")
+                .address("Brn")
+                .phoneNumber("09131874337")
+                .userName("salman")
+                .password(encoder.encode("1234"))
+                .role(userRole)
+                .build();
+
         Order order = Order
                 .builder()
                 .name("MR_Ider")
@@ -78,6 +90,7 @@ public class StartUp implements CommandLineRunner {
 
         userRoleService.save(userRole);
         appUserService.save(appUser);
+        appUserService.save(salman);
 
         orderService.save(order);
         orderService.save(order1);

@@ -1,6 +1,5 @@
 package ir.novinp.productionreport.Exception;
 
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,8 @@ public class ExceptionController {
         return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({SignatureVerificationException.class, TokenExpiredException.class})
-    public ResponseEntity invalidToken(SignatureVerificationException e) {
+    @ExceptionHandler( value = {TokenExpiredException.class})
+    public ResponseEntity invalidToken(TokenExpiredException e) {
         return new ResponseEntity("User is not authenticated!", HttpStatus.OK);
     }
 

@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -36,14 +37,14 @@ public class Order {
     private boolean glassProductionStepDone;
 
     @CreationTimestamp
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @UpdateTimestamp
-    private LocalDate lastModificationDate;
+    private LocalDateTime lastModificationDate;
 
-    private LocalDate completeDate;
+    private LocalDateTime completeDate;
 
-    private LocalDate outDate;
+    private LocalDateTime outDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_app_id")
