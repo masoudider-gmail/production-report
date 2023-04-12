@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  new-mysql:
+    image: mysql/mysql-server
+    ports:
+      - 3306:3306
+    volumes:
+      - /home/administrator/Videos:/etc/mysql/conf.d
+      - ./datadump.sql:/docker-entrypoint-initdb.d/datadump.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=production_report
+    container_name: new-mysql
+  pr-report:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      new-mysql:
+        condition: service_healthy
+    container_name: pr-report

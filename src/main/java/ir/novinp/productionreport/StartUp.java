@@ -27,7 +27,7 @@ public class StartUp implements CommandLineRunner {
     private PasswordEncoder encoder;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         UserRole userRole = UserRole
                 .builder()
