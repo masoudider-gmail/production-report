@@ -3,10 +3,10 @@ name: build_project
 on:
   pull_request:
     branches:
-      - production
+      - dev
 
 jobs:
-  build:
+  build_my_project:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
